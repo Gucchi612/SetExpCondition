@@ -8,7 +8,7 @@
     Title="SetExpCondition">
 
     <ShellContent
-        Title="Home"
+        Title="EXP Mode"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

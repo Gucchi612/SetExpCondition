@@ -53,12 +53,12 @@
                 HorizontalOptions="Center" />
                 
             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                <local:ConditionButton Text="条件1" Clicked="OnSaveClicked"/>
-                <local:ConditionButton Text="条件2" Clicked="OnSaveClicked"/>
-                <local:ConditionButton Text="条件3" Clicked="OnSaveClicked"/>
-                <local:ConditionButton Text="条件4" Clicked="OnSaveClicked"/>
-                <local:ConditionButton Text="条件5" Clicked="OnSaveClicked"/>
-                <local:ConditionButton Text="条件6" Clicked="OnSaveClicked"/>
+                <local:ConditionButton Text="条件1" Clicked="OnConditionClicked"/>
+                <local:ConditionButton Text="条件2" Clicked="OnConditionClicked"/>
+                <local:ConditionButton Text="条件3" Clicked="OnConditionClicked"/>
+                <local:ConditionButton Text="条件4" Clicked="OnConditionClicked"/>
+                <local:ConditionButton Text="条件5" Clicked="OnConditionClicked"/>
+                <local:ConditionButton Text="条件6" Clicked="OnConditionClicked"/>
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

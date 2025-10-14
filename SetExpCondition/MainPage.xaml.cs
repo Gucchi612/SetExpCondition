@@ -66,5 +66,13 @@ public partial class MainPage : ContentPage
 		// 保存処理を実装
 		// DisplayLabel.Text = "設定が保存されました。";
 	}
+
+	private void OnConditionClicked(object sender, EventArgs e)
+	{
+		if (sender is Button button)
+		{
+			DisplayAlert("条件ボタン", $"{button.Text} がクリックされました。", "OK");
+		}
+	}
 }
 
