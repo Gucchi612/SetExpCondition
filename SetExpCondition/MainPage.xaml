@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SetExpCondition"
              x:Class="SetExpCondition.MainPage">
 
     <ScrollView>
@@ -52,54 +53,12 @@
                 HorizontalOptions="Center" />
                 
             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                <Button
-                    x:Name="ConditionBtn1"
-                    Text="条件1"
-                    FontSize="18"
-                    SemanticProperties.Hint="設定を保存します"
-                    Clicked="OnSaveClicked"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
-                <Button
-                    x:Name="ConditionBtn2"
-                    Text="条件2"
-                    FontSize="18"
-                    SemanticProperties.Hint="設定を保存します"
-                    Clicked="OnSaveClicked"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
-                <Button
-                    x:Name="ConditionBtn3"
-                    Text="条件3"
-                    FontSize="18"
-                    SemanticProperties.Hint="設定を保存します"
-                    Clicked="OnSaveClicked"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
-                <Button
-                    x:Name="ConditionBtn4"
-                    Text="条件4"
-                    FontSize="18"
-                    SemanticProperties.Hint="設定を保存します"
-                    Clicked="OnSaveClicked"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
-                <Button
-                    x:Name="ConditionBtn5"
-                    Text="条件5"
-                    FontSize="18"
-                    SemanticProperties.Hint="設定を保存します"
-                    Clicked="OnSaveClicked"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
-                <Button
-                    x:Name="ConditionBtn6"
-                    Text="条件6"
-                    FontSize="18"
-                    SemanticProperties.Hint="設定を保存します"
-                    Clicked="OnSaveClicked"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
+                <local:ConditionButton Text="条件1" Clicked="OnSaveClicked"/>
+                <local:ConditionButton Text="条件2" Clicked="OnSaveClicked"/>
+                <local:ConditionButton Text="条件3" Clicked="OnSaveClicked"/>
+                <local:ConditionButton Text="条件4" Clicked="OnSaveClicked"/>
+                <local:ConditionButton Text="条件5" Clicked="OnSaveClicked"/>
+                <local:ConditionButton Text="条件6" Clicked="OnSaveClicked"/>
             </HorizontalStackLayout>
 
         </VerticalStackLayout>
