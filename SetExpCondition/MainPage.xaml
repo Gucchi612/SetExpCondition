@@ -61,6 +61,13 @@
                 <local:ConditionButton Text="条件6" Clicked="OnConditionClicked"/>
             </HorizontalStackLayout>
 
+            <Label
+                x:Name="ResultLabel"
+                Text="上記の条件ボタンをクリックすると、条件名がポップアップ表示されます。"
+                HorizontalOptions="Fill"
+                HorizontalTextAlignment="Center"
+                FontSize="18"/>
+
         </VerticalStackLayout>
     </ScrollView>
 

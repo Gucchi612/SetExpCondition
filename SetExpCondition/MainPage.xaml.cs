@@ -67,12 +67,15 @@ public partial class MainPage : ContentPage
 		// DisplayLabel.Text = "設定が保存されました。";
 	}
 
-	private void OnConditionClicked(object sender, EventArgs e)
+	private async void OnConditionClicked(object sender, EventArgs e)
 	{
-		if (sender is Button button)
+		await MainThread.InvokeOnMainThreadAsync(async () =>
 		{
-			DisplayAlert("条件ボタン", $"{button.Text} がクリックされました。", "OK");
-		}
+			if (sender is Button button)
+			{
+				await DisplayAlert("条件ボタン", $"{button.Text} がクリックされました。", "OK");
+			}
+		});
 	}
 }
 
