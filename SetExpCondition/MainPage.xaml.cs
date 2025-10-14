@@ -5,10 +5,20 @@ namespace SetExpCondition;
 public partial class MainPage : ContentPage
 {
 	// int count = 0;
+	public List<string> Options { get; set; }
 
 	public MainPage()
 	{
 		InitializeComponent();
+
+		Options = new List<string>
+		{
+			"オプション1",
+			"オプション2",
+			"オプション3",
+			"オプション4"
+		};
+		BindingContext = this;
 	}
 
 	// private void OnCounterClicked(object sender, EventArgs e)
@@ -22,6 +32,7 @@ public partial class MainPage : ContentPage
 
 	// 	SemanticScreenReader.Announce(CounterBtn.Text);
 	// }
+
 
 	private void OnSelectFolderClicked(object sender, EventArgs e)
 	{
@@ -74,11 +85,20 @@ public partial class MainPage : ContentPage
 			await DisplayAlert("Condition Button is Clicked!", $"{button.Text} がクリックされました。", "OK");
 		}
 	}
-	
+
 	private async void OnSaveCSVClicked(object sender, EventArgs e)
 	{
 		// CSV保存処理を実装
 		await DisplayAlert("Save CSV!", "CSVが保存されました。", "OK");
 	}
+	
+	private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (OptionsPicker.SelectedIndex != -1)
+        {
+            string selectedOption = OptionsPicker.Items[OptionsPicker.SelectedIndex];
+            DisplayAlert("選択された項目", $"選択された項目: {selectedOption}", "OK");
+        }
+    }
 }
 

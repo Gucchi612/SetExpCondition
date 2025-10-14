@@ -24,19 +24,24 @@
             
             
             <!-- テキストボックスを追加 -->
-            <Entry
-                x:Name="FolderPathEntry"
-                Placeholder="フォルダパスを入力してください"
-                HorizontalOptions="Fill"
-                FontSize="18" />
+            <Grid ColumnDefinitions="8*,2*"
+                  HorizontalOptions="Fill"
+                  ColumnSpacing="10">
+                <Entry
+                    x:Name="FolderPathEntry"
+                    Placeholder="フォルダパスを入力してください"
+                    FontSize="18"
+                    Grid.Column="0" />
 
-            <Button
-                x:Name="SelectFolderBtn"
-                Text="保存先確定"
-                FontSize="18" 
-                SemanticProperties.Hint="フォルダを選択します"
-                Clicked="OnSelectFolderClicked"
-                HorizontalOptions="Fill" />
+                <Button
+                    x:Name="SelectFolderBtn"
+                    Text="保存先確定"
+                    FontSize="18"
+                    SemanticProperties.Hint="フォルダを選択します"
+                    Clicked="OnSelectFolderClicked"
+                    Grid.Column="1"/>
+            </Grid>
+            
             
             <!-- 入力内容を表示するラベル -->
             <Label
@@ -67,13 +72,24 @@
                     Text="要因1"
                     Style="{StaticResource SubHeadline}"
                     SemanticProperties.HeadingLevel="Level2"
-                HorizontalOptions="Center" />
+                    HorizontalOptions="Center" />
+
+                    <Picker
+                    x:Name="OptionsPicker"
+                    Title="選択してください"
+                    ItemsSource="{Binding Options}"
+                    SelectedIndexChanged="OnPickerSelectedIndexChanged"
+                    HorizontalOptions="Fill" />
                 </VerticalStackLayout>
-                <Label
-                Text="要因2"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                HorizontalOptions="Center" />
+                
+                <VerticalStackLayout>
+                    <Label
+                    Text="要因2"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.HeadingLevel="Level2"
+                    HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
             </HorizontalStackLayout>
 
             <Button
