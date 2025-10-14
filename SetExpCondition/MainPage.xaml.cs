@@ -69,13 +69,10 @@ public partial class MainPage : ContentPage
 
 	private async void OnConditionClicked(object sender, EventArgs e)
 	{
-		await MainThread.InvokeOnMainThreadAsync(async () =>
-		{
-			if (sender is Button button)
-			{
-				await DisplayAlert("条件ボタン", $"{button.Text} がクリックされました。", "OK");
-			}
-		});
+		if (sender is ConditionButton button)   // sender を ConditionButton 型にキャスト(これで正しく動作)
+        {
+			await DisplayAlert("条件ボタン", $"{button.Text} がクリックされました。", "OK");
+		}
 	}
 }
 
