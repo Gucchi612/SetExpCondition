@@ -9,5 +9,6 @@
         HeightRequest="100"
         WidthRequest="100"
         SemanticProperties.Hint="設定を保存します"
-        Clicked="OnButtonClicked"/>
+        Clicked="OnButtonClicked"
+        BackgroundColor="LightGray"/>
 </ContentView>

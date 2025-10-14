@@ -41,13 +41,13 @@
             <!-- 入力内容を表示するラベル -->
             <Label
                 x:Name="DisplayLabel"
-                Text="入力されたパスがここに表示されます"
+                Text="保存先パス:"
                 HorizontalOptions="Fill"
                 HorizontalTextAlignment="Center"
                 FontSize="18"/>
 
             <Label
-                Text="実験条件"
+                Text="実験条件を選択してください"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
                 HorizontalOptions="Center" />
@@ -61,12 +61,29 @@
                 <local:ConditionButton Text="条件6" Clicked="OnConditionClicked"/>
             </HorizontalStackLayout>
 
-            <Label
-                x:Name="ResultLabel"
-                Text="上記の条件ボタンをクリックすると、条件名がポップアップ表示されます。"
-                HorizontalOptions="Fill"
-                HorizontalTextAlignment="Center"
-                FontSize="18"/>
+            <HorizontalStackLayout Spacing="300" HorizontalOptions="Center">
+                <VerticalStackLayout>
+                    <Label
+                    Text="要因1"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.HeadingLevel="Level2"
+                HorizontalOptions="Center" />
+                </VerticalStackLayout>
+                <Label
+                Text="要因2"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                HorizontalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Button
+                x:Name="SaveCSVBtn"
+                Text="CSV保存"
+                FontSize="20" 
+                SemanticProperties.Hint="CSVを選択します"
+                Clicked="OnSaveCSVClicked"
+                HorizontalOptions="Fill" 
+                HeightRequest="100" />
 
         </VerticalStackLayout>
     </ScrollView>

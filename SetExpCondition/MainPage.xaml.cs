@@ -53,7 +53,7 @@ public partial class MainPage : ContentPage
 		string enteredText = FolderPathEntry.Text;
 		if (!string.IsNullOrWhiteSpace(enteredText))
 		{
-			DisplayLabel.Text = $"入力されたパス: {enteredText}";
+			DisplayLabel.Text = $"保存先パス: {enteredText}";
 		}
 		else
 		{
@@ -70,9 +70,15 @@ public partial class MainPage : ContentPage
 	private async void OnConditionClicked(object sender, EventArgs e)
 	{
 		if (sender is ConditionButton button)   // sender を ConditionButton 型にキャスト(これで正しく動作)
-        {
-			await DisplayAlert("条件ボタン", $"{button.Text} がクリックされました。", "OK");
+		{
+			await DisplayAlert("Condition Button is Clicked!", $"{button.Text} がクリックされました。", "OK");
 		}
+	}
+	
+	private async void OnSaveCSVClicked(object sender, EventArgs e)
+	{
+		// CSV保存処理を実装
+		await DisplayAlert("Save CSV!", "CSVが保存されました。", "OK");
 	}
 }
 
