@@ -75,9 +75,9 @@
                     HorizontalOptions="Center" />
 
                     <Picker
-                    x:Name="OptionsPicker"
+                    x:Name="OptionsPicker1"
                     Title="選択してください"
-                    ItemsSource="{Binding Options}"
+                    ItemsSource="{Binding Options1}"
                     SelectedIndexChanged="OnPickerSelectedIndexChanged"
                     HorizontalOptions="Fill" />
                 </VerticalStackLayout>
@@ -88,6 +88,13 @@
                     Style="{StaticResource SubHeadline}"
                     SemanticProperties.HeadingLevel="Level2"
                     HorizontalOptions="Center" />
+
+                    <Picker
+                    x:Name="OptionsPicker2"
+                    Title="選択してください"
+                    ItemsSource="{Binding Options2}"
+                    SelectedIndexChanged="OnPickerSelectedIndexChanged"
+                    HorizontalOptions="Fill" />
                 </VerticalStackLayout>
 
             </HorizontalStackLayout>

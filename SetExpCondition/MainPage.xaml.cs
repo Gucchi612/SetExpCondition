@@ -5,20 +5,28 @@ namespace SetExpCondition;
 public partial class MainPage : ContentPage
 {
 	// int count = 0;
-	public List<string> Options { get; set; }
+	public List<string> Options1 { get; set; }
+	public List<string> Options2 { get; set; }
 
-	public MainPage()
+    public MainPage()
 	{
 		InitializeComponent();
 
-		Options = new List<string>
+		Options1 = new List<string>
 		{
-			"オプション1",
-			"オプション2",
-			"オプション3",
-			"オプション4"
+			"条件1",
+			"条件2",
+			"条件3",
+			"条件4"
 		};
-		BindingContext = this;
+        Options2 = new List<string>
+        {
+            "条件1",
+            "条件2",
+            "条件3",
+            "条件4"
+        };
+        BindingContext = this;
 	}
 
 	// private void OnCounterClicked(object sender, EventArgs e)
@@ -94,9 +102,9 @@ public partial class MainPage : ContentPage
 	
 	private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
     {
-        if (OptionsPicker.SelectedIndex != -1)
+        if (OptionsPicker1.SelectedIndex != -1)
         {
-            string selectedOption = OptionsPicker.Items[OptionsPicker.SelectedIndex];
+            string selectedOption = OptionsPicker1.Items[OptionsPicker1.SelectedIndex];
             DisplayAlert("選択された項目", $"選択された項目: {selectedOption}", "OK");
         }
     }
