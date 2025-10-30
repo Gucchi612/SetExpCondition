@@ -14,22 +14,39 @@
         <!-- 上部: スクロール可能な入力領域 -->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="30,10" Spacing="25">
-                <Label Text="保存先フォルダのパス指定"
+                <Label Text="保存先CSVのパス指定"
                        Style="{StaticResource SubHeadline}"
                        HorizontalOptions="Center" />
 
-                <Grid ColumnDefinitions="8*,2*" ColumnSpacing="10">
+                <!-- Entry と「保存先確定」「未選択」ボタンを並べる -->
+                <Grid ColumnDefinitions="7*,2*,1*" ColumnSpacing="10">
                     <Entry Text="{Binding FolderPath}" FontSize="18" Grid.Column="0" />
-                    <Button Text="保存先確定"
+                    <Button Text="Select"
                             FontSize="18"
-                            Command="{Binding ConfirmFolderCommand}"
+                            Clicked="OnConfirmFolderClicked"
                             Grid.Column="1" />
+                    <Button Text="Delete"
+                            FontSize="16"
+                            Clicked="OnClearSelectionClicked"
+                            Grid.Column="2" />
                 </Grid>
 
-                <Label Text="{Binding DisplayText}" 
+                <!-- 選択された CSV ファイル名（拡張子付き）を表示 -->
+                <HorizontalStackLayout HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Spacing="20">
+                    <Label Text="{Binding DisplayText}" 
                        FontSize="18"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding SelectedCsvFileName}"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+                </HorizontalStackLayout>
+                    
+
+                
 
                 <Label Text="実験条件選択"
                        Style="{StaticResource SubHeadline}"
@@ -65,8 +82,7 @@
                 JustifyContent="Center"
                 AlignItems="Start"
                 AlignContent="Start"
-                Padding="10"
-                    >
+                Padding="10">
 
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
@@ -88,7 +104,7 @@
 
         <!-- 最下部: CSV保存ボタン -->
         <Grid Grid.Row="2" Padding="8">
-            <Button Text="CSV保存"
+            <Button Text="Save CSV"
                     FontSize="18"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center"

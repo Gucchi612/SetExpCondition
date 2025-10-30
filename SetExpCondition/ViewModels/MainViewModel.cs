@@ -38,6 +38,11 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     string displayText = "保存先パス:";
 
+    // 選択された CSV ファイル名（拡張子込み）
+    [ObservableProperty]
+    string? selectedCsvFileName;
+
+
     public MainViewModel()
     {
         // 条件の直積（Options1 × Options2）を生成
@@ -78,7 +83,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     void ConfirmFolder()
     {
-        DisplayText = $"保存先パス: {FolderPath}";
+        DisplayText = $"保存先CSV: {FolderPath}";
     }
 
     // CSV保存コマンド（実装を入れてください）
