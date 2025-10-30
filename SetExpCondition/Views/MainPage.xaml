@@ -1,0 +1,66 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:SetExpCondition.ViewModels"
+             xmlns:controls="clr-namespace:SetExpCondition.Controls"
+             xmlns:local="clr-namespace:SetExpCondition"
+             x:Class="SetExpCondition.Views.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewmodels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,10" Spacing="25">
+
+            <Label Text="保存先フォルダのパスを指定してください"
+                   Style="{StaticResource SubHeadline}"
+                   HorizontalOptions="Center" />
+
+            <Grid ColumnDefinitions="8*,2*" ColumnSpacing="10">
+                <Entry Text="{Binding FolderPath}" FontSize="18" Grid.Column="0" />
+                <Button Text="保存先確定"
+                        FontSize="18"
+                        Command="{Binding ConfirmFolderCommand}"
+                        Grid.Column="1" />
+            </Grid>
+
+            <Label Text="{Binding DisplayText}" 
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Text="実験条件を選択してください"
+                   Style="{StaticResource SubHeadline}"
+                   HorizontalOptions="Center" />
+
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                <controls:ConditionButton Text="条件1" Command="{Binding SelectConditionCommand}" CommandParameter="条件1"/>
+                <controls:ConditionButton Text="条件2" Command="{Binding SelectConditionCommand}" CommandParameter="条件2"/>
+                <controls:ConditionButton Text="条件3" Command="{Binding SelectConditionCommand}" CommandParameter="条件3"/>
+                <controls:ConditionButton Text="条件4" Command="{Binding SelectConditionCommand}" CommandParameter="条件4"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="300" HorizontalOptions="Center">
+                <VerticalStackLayout>
+                    <Label Text="要因1" Style="{StaticResource SubHeadline}" HorizontalOptions="Center" />
+                    <Picker Title="選択してください"
+                            ItemsSource="{Binding Options1}"
+                            SelectedItem="{Binding SelectedOption1, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="要因2" Style="{StaticResource SubHeadline}" HorizontalOptions="Center" />
+                    <Picker Title="選択してください"
+                            ItemsSource="{Binding Options2}"
+                            SelectedItem="{Binding SelectedOption2, Mode=TwoWay}" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <Button Text="CSV保存"
+                    FontSize="20"
+                    Command="{Binding SaveCSVCommand}"
+                    HorizontalOptions="Fill"
+                    HeightRequest="100" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
