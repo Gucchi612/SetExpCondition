@@ -2,65 +2,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:SetExpCondition.ViewModels"
              xmlns:controls="clr-namespace:SetExpCondition.Controls"
-             xmlns:local="clr-namespace:SetExpCondition"
-             x:Class="SetExpCondition.Views.MainPage">
+             x:Class="SetExpCondition.Views.MainPage"
+             x:Name="PageRoot">
 
     <ContentPage.BindingContext>
         <viewmodels:MainViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30,10" Spacing="25">
+    <!-- Grid で上部（Auto）と下部（*）に分け、最下部に CSV ボタン用の Auto 行を追加 -->
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- 上部: スクロール可能な入力領域 -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="30,10" Spacing="25">
+                <Label Text="保存先フォルダのパス指定"
+                       Style="{StaticResource SubHeadline}"
+                       HorizontalOptions="Center" />
 
-            <Label Text="保存先フォルダのパスを指定してください"
-                   Style="{StaticResource SubHeadline}"
-                   HorizontalOptions="Center" />
+                <Grid ColumnDefinitions="8*,2*" ColumnSpacing="10">
+                    <Entry Text="{Binding FolderPath}" FontSize="18" Grid.Column="0" />
+                    <Button Text="保存先確定"
+                            FontSize="18"
+                            Command="{Binding ConfirmFolderCommand}"
+                            Grid.Column="1" />
+                </Grid>
 
-            <Grid ColumnDefinitions="8*,2*" ColumnSpacing="10">
-                <Entry Text="{Binding FolderPath}" FontSize="18" Grid.Column="0" />
-                <Button Text="保存先確定"
-                        FontSize="18"
-                        Command="{Binding ConfirmFolderCommand}"
-                        Grid.Column="1" />
-            </Grid>
+                <Label Text="{Binding DisplayText}" 
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
 
-            <Label Text="{Binding DisplayText}" 
-                   FontSize="18"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center" />
+                <Label Text="実験条件選択"
+                       Style="{StaticResource SubHeadline}"
+                       HorizontalOptions="Center"
+                       Padding="0,30,0,0"/>
 
-            <Label Text="実験条件を選択してください"
-                   Style="{StaticResource SubHeadline}"
-                   HorizontalOptions="Center" />
+                <!-- Pickers をここに置く -->
+                <HorizontalStackLayout Spacing="40" HorizontalOptions="Center">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Physical Locomotion method" Style="{StaticResource SubHeadline}" HorizontalOptions="Center" />
+                        <Picker Title=""
+                                ItemsSource="{Binding Options1}"
+                                SelectedItem="{Binding SelectedOption1, Mode=TwoWay}" />
+                    </VerticalStackLayout>
 
-            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                <controls:ConditionButton Text="条件1" Command="{Binding SelectConditionCommand}" CommandParameter="条件1"/>
-                <controls:ConditionButton Text="条件2" Command="{Binding SelectConditionCommand}" CommandParameter="条件2"/>
-                <controls:ConditionButton Text="条件3" Command="{Binding SelectConditionCommand}" CommandParameter="条件3"/>
-                <controls:ConditionButton Text="条件4" Command="{Binding SelectConditionCommand}" CommandParameter="条件4"/>
-            </HorizontalStackLayout>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Virtual self-Movement Speed" Style="{StaticResource SubHeadline}" HorizontalOptions="Center" />
+                        <Picker Title=""
+                                ItemsSource="{Binding Options2}"
+                                SelectedItem="{Binding SelectedOption2, Mode=TwoWay}" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout Spacing="300" HorizontalOptions="Center">
-                <VerticalStackLayout>
-                    <Label Text="要因1" Style="{StaticResource SubHeadline}" HorizontalOptions="Center" />
-                    <Picker Title="選択してください"
-                            ItemsSource="{Binding Options1}"
-                            SelectedItem="{Binding SelectedOption1, Mode=TwoWay}" />
-                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
 
-                <VerticalStackLayout>
-                    <Label Text="要因2" Style="{StaticResource SubHeadline}" HorizontalOptions="Center" />
-                    <Picker Title="選択してください"
-                            ItemsSource="{Binding Options2}"
-                            SelectedItem="{Binding SelectedOption2, Mode=TwoWay}" />
-                </VerticalStackLayout>
-            </HorizontalStackLayout>
+        <!-- 下部: FlexLayout で横方向に並べ、幅を超えたら折り返す -->
+        <ScrollView Grid.Row="1" Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <FlexLayout
+                BindableLayout.ItemsSource="{Binding Conditions}"
+                Direction="Row"
+                Wrap="Wrap"
+                JustifyContent="Center"
+                AlignItems="Start"
+                AlignContent="Start"
+                Padding="10"
+                    >
 
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ConditionButton
+                            Text="{Binding Name}"
+                            Factor1="{Binding Factor1}"
+                            Factor2="{Binding Factor2}"
+                            IsSelected="{Binding IsSelected}"
+                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.SelectConditionCommand}"
+                            CommandParameter="{Binding .}"
+                            WidthRequest="160"
+                            HeightRequest="120"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+
+        <!-- 最下部: CSV保存ボタン -->
+        <Grid Grid.Row="2" Padding="8">
             <Button Text="CSV保存"
-                    FontSize="20"
-                    Command="{Binding SaveCSVCommand}"
-                    HorizontalOptions="Fill"
-                    HeightRequest="100" />
-        </VerticalStackLayout>
-    </ScrollView>
+                    FontSize="18"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="100"
+                    Command="{Binding SaveCsvCommand}" />
+        </Grid>
+    </Grid>
 </ContentPage>
