@@ -31,8 +31,8 @@ public partial class App : Application
             var winId = Win32Interop.GetWindowIdFromWindow(hwnd);
             var appWindow = AppWindow.GetFromWindowId(winId);
 
-            // 初期サイズを指定（例：幅 1000px, 高さ 700px）
-            appWindow.Resize(new SizeInt32(1000, 700));
+            // 初期サイズを指定（例：幅 1000px, 高さ 600px）
+            appWindow.Resize(new SizeInt32(1000, 600));
 
             // ウィンドウを中央に表示する
             //var displayArea = DisplayArea.GetFromWindowId(winId, DisplayAreaFallback.Primary);

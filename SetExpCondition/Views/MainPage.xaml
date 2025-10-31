@@ -14,6 +14,7 @@
         <!-- 上部: スクロール可能な入力領域 -->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="30,10" Spacing="25">
+                <!--
                 <Border
                     Stroke="White"
                     StrokeThickness="2"
@@ -26,6 +27,8 @@
                         HorizontalOptions="Center"
                         TextColor="White" />
                 </Border>
+                -->
+                
 
                 <!-- Entry と「保存先確定」「未選択」ボタンを並べる -->
                 <Grid ColumnDefinitions="7*,2*,1*" ColumnSpacing="10">
@@ -45,26 +48,23 @@
                                        VerticalOptions="Center"
                                        Spacing="20">
                     <Label Text="{Binding DisplayText}" 
-                       FontSize="18"
+                       FontSize="16"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
                     <Label Text="{Binding SelectedCsvFileName}"
-                       FontSize="18"
+                       FontSize="16"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
                 </HorizontalStackLayout>
                     
-                <Border
-                    Stroke="White"
-                    StrokeThickness="2"
-                    Padding="2"
-                    Margin="0"
-                    HorizontalOptions="Center">
-                    <Label Text="実験条件選択"
-                       Style="{StaticResource SubHeadline}"
-                       HorizontalOptions="Center"/>
-                </Border>
-
+                
+                <!-- 空白用 -->
+                <Label Text=""
+                    HeightRequest="10"
+                    HorizontalOptions="Center"/>
+              
+                
+                
                 <!-- Pickers をここに置く -->
                 <HorizontalStackLayout Spacing="40" HorizontalOptions="Center">
                     <VerticalStackLayout Spacing="10">
@@ -115,7 +115,7 @@
         </ScrollView>
 
         <!-- 最下部: CSV保存ボタン -->
-        <Grid Grid.Row="2" Padding="8">
+        <Grid Grid.Row="2" Padding="10">
             <Button Text="Save CSV"
                     FontSize="24"
                     HorizontalOptions="Center"

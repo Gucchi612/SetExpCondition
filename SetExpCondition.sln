@@ -8,16 +8,28 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{35031E54-9450-4B45-B5F6-32A56365EE30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35031E54-9450-4B45-B5F6-32A56365EE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35031E54-9450-4B45-B5F6-32A56365EE30}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Debug|x64.ActiveCfg = Debug|x64
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Debug|x64.Build.0 = Debug|x64
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Debug|x64.Deploy.0 = Debug|x64
 		{35031E54-9450-4B45-B5F6-32A56365EE30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35031E54-9450-4B45-B5F6-32A56365EE30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Release|x64.ActiveCfg = Release|x64
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Release|x64.Build.0 = Release|x64
+		{35031E54-9450-4B45-B5F6-32A56365EE30}.Release|x64.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80FD7F93-5663-43BC-B7FD-22F755D093D7}
 	EndGlobalSection
 EndGlobal
