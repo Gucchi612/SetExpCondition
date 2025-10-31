@@ -10,8 +10,8 @@
            CornerRadius="8"
            Padding="8"
            HasShadow="False"
-           WidthRequest="160"
-           HeightRequest="120"
+           WidthRequest="130"
+           HeightRequest="100"
            BackgroundColor="LightGray"
            HorizontalOptions="Center"
            VerticalOptions="Start">

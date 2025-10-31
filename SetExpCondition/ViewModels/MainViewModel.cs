@@ -1,4 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SetExpCondition.Models;
@@ -41,6 +46,9 @@ public partial class MainViewModel : ObservableObject
     // 選択された CSV ファイル名（拡張子込み）
     [ObservableProperty]
     string? selectedCsvFileName;
+
+    // CSV 保存完了を通知するイベント（View が購読してモーダル表示する）
+    public event EventHandler<string?>? CsvSaved;
 
 
     public MainViewModel()
@@ -86,11 +94,76 @@ public partial class MainViewModel : ObservableObject
         DisplayText = $"保存先CSV: {FolderPath}";
     }
 
-    // CSV保存コマンド（実装を入れてください）
+    // CSV保存コマンド：一行目に要因名、二行目に水準名を書き込む
     [RelayCommand]
-    void SaveCsv()
+    public async Task SaveCsv()
     {
-        // CSV 保存処理をここに実装
+        try
+        {
+            // 出力先パス決定
+            string? outPath = null;
+
+            if (!string.IsNullOrWhiteSpace(SelectedCsvFileName) && !string.IsNullOrWhiteSpace(FolderPath))
+            {
+                outPath = Path.Combine(FolderPath!, SelectedCsvFileName!);
+            }
+            else if (!string.IsNullOrWhiteSpace(FolderPath))
+            {
+                // FolderPath がファイル名を含む可能性を考慮
+                if (Path.HasExtension(FolderPath) && Path.GetExtension(FolderPath).Equals(".csv", StringComparison.OrdinalIgnoreCase))
+                {
+                    outPath = FolderPath;
+                }
+                else
+                {
+                    // ディレクトリと見なしてデフォルト名を付与
+                    outPath = Path.Combine(FolderPath, "experiment.csv");
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(outPath))
+            {
+                DisplayText = "保存先が指定されていません。";
+                return;
+            }
+
+            // ディレクトリ作成（必要なら）
+            var dir = Path.GetDirectoryName(outPath) ?? "";
+            if (!string.IsNullOrWhiteSpace(dir) && !Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            // ヘッダー（要因名）と2行目（水準名）を作成
+            // 要因名は UI のラベルと合わせて固定文字列にしています
+            var factorNames = new[] { "Condition1_PL", "Condition2_VS" };
+            var levelNames = new[] { SelectedOption1 ?? string.Empty, SelectedOption2 ?? string.Empty };
+
+            string EscapeCsv(string s)
+            {
+                if (s is null) return "";
+                if (s.Contains('"') || s.Contains(',') || s.Contains('\n') || s.Contains('\r'))
+                    return "\"" + s.Replace("\"", "\"\"") + "\"";
+                return s;
+            }
+
+            var headerLine = string.Join(",", factorNames.Select(EscapeCsv));
+            var levelLine = string.Join(",", levelNames.Select(EscapeCsv));
+
+            var sb = new StringBuilder();
+            sb.AppendLine(headerLine);
+            sb.AppendLine(levelLine);
+
+            await File.WriteAllTextAsync(outPath, sb.ToString(), Encoding.UTF8);
+
+            // 成功表示とファイル名保持
+            SelectedCsvFileName = Path.GetFileName(outPath);
+
+            // View に保存完了を通知（モーダル表示用）
+            CsvSaved?.Invoke(this, outPath);
+        }
+        catch (Exception ex)
+        {
+            DisplayText = $"CSV保存に失敗しました: {ex.Message}";
+        }
     }
 
     void UpdateSelectionFromPickers()
@@ -102,9 +175,6 @@ public partial class MainViewModel : ObservableObject
             c.IsSelected = match;
             if (match) hit = c;
         }
-
-        //if (hit != null)
-            //DisplayText = $"選択: {hit.Name} (要因1={hit.Factor1}, 要因2={hit.Factor2})";
     }
 
     void UpdateSelectedModel(ConditionModel selected)

@@ -5,15 +5,48 @@ using Microsoft.Maui;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
+using Microsoft.Maui.ApplicationModel; // MainThread
 using SetExpCondition.ViewModels;
 
 namespace SetExpCondition.Views;
 
 public partial class MainPage : ContentPage
 {
+    MainViewModel? vm;
+
     public MainPage()
     {
         InitializeComponent();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        vm = BindingContext as MainViewModel;
+
+        if (vm != null)
+        {
+            // ViewModel の CsvSaved イベントを購読して、保存成功時にモーダルを表示
+            vm.CsvSaved += Vm_CsvSaved;
+        }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        if (vm != null)
+        {
+            vm.CsvSaved -= Vm_CsvSaved;
+            vm = null;
+        }
+    }
+
+    // 保存成功通知を受け取りモーダル表示（UI スレッドで実行）
+    void Vm_CsvSaved(object? sender, string? path)
+    {
+        var displayPath = string.IsNullOrEmpty(path) ? "(ファイルパス無し)" : path;
+        // UI スレッドで DisplayAlert を実行
+        MainThread.InvokeOnMainThreadAsync(() => DisplayAlert("Completed Saving!", $"CSV を保存しました:\n{displayPath}", "OK"));
     }
 
     // 保存先確定ボタンのハンドラ：Windows のときは CSV ファイルを選択し、
@@ -57,19 +90,17 @@ public partial class MainPage : ContentPage
                 }
                 else
                 {
-                    // キャンセル（未選択）した場合は FileName をクリア（必要ならこの挙動を変更）
+                    // キャンセル（未選択）した場合は FileName をクリア
                     vm.SelectedCsvFileName = string.Empty;
                 }
             }
             catch (Exception)
             {
-                // 必要ならエラーハンドリングを追加
                 vm.SelectedCsvFileName = string.Empty;
             }
         }
         else
         {
-            // 非 Windows は従来通りコマンド実行（ファイル名はクリア）
             vm.SelectedCsvFileName = string.Empty;
             if (vm.ConfirmFolderCommand.CanExecute(null))
                 vm.ConfirmFolderCommand.Execute(null);

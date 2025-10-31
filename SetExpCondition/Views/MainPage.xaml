@@ -14,9 +14,18 @@
         <!-- 上部: スクロール可能な入力領域 -->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="30,10" Spacing="25">
-                <Label Text="保存先CSVのパス指定"
-                       Style="{StaticResource SubHeadline}"
-                       HorizontalOptions="Center" />
+                <Border
+                    Stroke="White"
+                    StrokeThickness="2"
+                    Padding="2"
+                    Margin="0"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="保存先CSVのパス指定"
+                        Style="{StaticResource SubHeadline}"
+                        HorizontalOptions="Center"
+                        TextColor="White" />
+                </Border>
 
                 <!-- Entry と「保存先確定」「未選択」ボタンを並べる -->
                 <Grid ColumnDefinitions="7*,2*,1*" ColumnSpacing="10">
@@ -45,13 +54,16 @@
                        HorizontalTextAlignment="Center" />
                 </HorizontalStackLayout>
                     
-
-                
-
-                <Label Text="実験条件選択"
+                <Border
+                    Stroke="White"
+                    StrokeThickness="2"
+                    Padding="2"
+                    Margin="0"
+                    HorizontalOptions="Center">
+                    <Label Text="実験条件選択"
                        Style="{StaticResource SubHeadline}"
-                       HorizontalOptions="Center"
-                       Padding="0,30,0,0"/>
+                       HorizontalOptions="Center"/>
+                </Border>
 
                 <!-- Pickers をここに置く -->
                 <HorizontalStackLayout Spacing="40" HorizontalOptions="Center">
@@ -93,7 +105,7 @@
                             IsSelected="{Binding IsSelected}"
                             Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.SelectConditionCommand}"
                             CommandParameter="{Binding .}"
-                            WidthRequest="160"
+                            WidthRequest="135"
                             HeightRequest="120"
                             HorizontalOptions="Center"
                             VerticalOptions="Start" />
@@ -105,10 +117,12 @@
         <!-- 最下部: CSV保存ボタン -->
         <Grid Grid.Row="2" Padding="8">
             <Button Text="Save CSV"
-                    FontSize="18"
-                    HorizontalOptions="FillAndExpand"
+                    FontSize="24"
+                    HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    HeightRequest="100"
+                    HeightRequest="80"
+                    WidthRequest="400"
+                    Margin="15"
                     Command="{Binding SaveCsvCommand}" />
         </Grid>
     </Grid>
