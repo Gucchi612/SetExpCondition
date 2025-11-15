@@ -13,7 +13,7 @@ namespace SetExpCondition.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
     // Picker 用の要因水準
-    public ObservableCollection<string> Options1 { get; } = new() { "Apright", "Walking-In-Place" };
+    public ObservableCollection<string> Options1 { get; } = new() { "Standing", "Walking-In-Place" };
     public ObservableCollection<string> Options2 { get; } = new() { "Slow", "Medium", "Fast" };
 
     // Pickers の選択（自動でプロパティ変更通知を出す）
@@ -50,6 +50,13 @@ public partial class MainViewModel : ObservableObject
     // 試行回数（1以上）
     [ObservableProperty]
     int trialCount = 1;
+
+    // 参加者 ID と Name（MainPage の Entry にバインド）
+    [ObservableProperty]
+    string? participantId;
+
+    [ObservableProperty]
+    string? participantName;
 
     public MainViewModel()
     {
@@ -116,8 +123,7 @@ public partial class MainViewModel : ObservableObject
         TrialCount = 1;
     }
 
-    // CSV保存コマンド：1行目にヘッダー "Trials,Physical Locomotion Method, Virtual self-Movement Speed"
-    // 2行目に試行回数と選択水準を書き込む
+    // CSV保存コマンド：先頭列に id,name を追加して書き込む
     [RelayCommand]
     public async Task SaveCsv()
     {
@@ -155,9 +161,15 @@ public partial class MainViewModel : ObservableObject
             if (!string.IsNullOrWhiteSpace(dir) && !Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            // ヘッダー（1行目）と2行目（試行回数と水準）を作成
-            var headerColumns = new[] { "Trials", "PhysicalLocomotionMethod", "Virtualself-MovementSpeed" };
-            var valueColumns = new[] { TrialCount.ToString(), SelectedOption1 ?? string.Empty, SelectedOption2 ?? string.Empty };
+            // ヘッダー（先頭に id,name を追加）と値列を作成
+            var headerColumns = new[] { "id", "name", "Trials", "PhysicalLocomotionMethod", "Virtualself-MovementSpeed" };
+            var valueColumns = new[] {
+                ParticipantId ?? string.Empty,
+                ParticipantName ?? string.Empty,
+                TrialCount.ToString(),
+                SelectedOption1 ?? string.Empty,
+                SelectedOption2 ?? string.Empty
+            };
 
             string EscapeCsv(string s)
             {

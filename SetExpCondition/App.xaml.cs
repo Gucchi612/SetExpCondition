@@ -38,7 +38,7 @@ public partial class App : Application
 
             // 画面に対する割合でサイズ決定（例: 80% 幅、70% 高さ）、かつ最小・最大を設定
             const double widthRatio = 0.4;
-            const double heightRatio = 0.67;
+            const double heightRatio = 0.72;
             const int minWidth = 1000;
             const int minHeight = 600;
             const int maxWidth = 1600; // 必要なら制限

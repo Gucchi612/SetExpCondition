@@ -11,13 +11,6 @@
 
     <!-- Grid で上部（Auto）と下部（*）に分け、最下部に CSV ボタン用の Auto 行を追加 -->
     <Grid RowDefinitions="Auto,*,Auto">
-        <!--
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        -->
         <!-- 上部: スクロール可能な入力領域 -->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="30,10" Spacing="25">
@@ -41,28 +34,43 @@
                         Padding="8"
                         BackgroundColor="Transparent"
                         HorizontalOptions="FillAndExpand">
-                    <HorizontalStackLayout HorizontalOptions="Center"
-                                           VerticalOptions="Center"
-                                           Spacing="15">
-                        <Label Text="{Binding DisplayText}" 
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Label Text="{Binding SelectedCsvFileName}"
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                    </HorizontalStackLayout>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Spacing="10">
+                        <HorizontalStackLayout HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               Spacing="15">
+                            <Label Text="{Binding DisplayText}" 
+                                   FontSize="16"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding SelectedCsvFileName}"
+                                   FontSize="16"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </HorizontalStackLayout>
+
+                        
+                    </VerticalStackLayout>
                 </Border>
-                    
-                
-                <!-- 空白用 -->
-                <Label Text=""
-                    HeightRequest="5"
-                    HorizontalOptions="Center"/>
-              
-                
-                
+
+
+                <!-- 追加: Participant 入力欄（条件設定と DisplayText の間に表示） -->
+                <HorizontalStackLayout HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Spacing="20">
+                    <VerticalStackLayout>
+                        <Label Text="Participant ID" FontSize="14" HorizontalOptions="Center" />
+                        <Entry Text="{Binding ParticipantId}" WidthRequest="50" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="Participant Name" FontSize="14" HorizontalOptions="Center" />
+                        <Entry Text="{Binding ParticipantName}" WidthRequest="200" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+
                 <!-- Pickers をここに置く -->
                 <HorizontalStackLayout Spacing="40" HorizontalOptions="Center">
                     <VerticalStackLayout Spacing="10">
