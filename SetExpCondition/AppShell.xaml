@@ -9,7 +9,7 @@
     Title="SetExpCondition">
 
     <ShellContent
-        Title="EXP Mode"
+        Title="EXP Mode  -Taniguchi_2025_EXP3-"
         ContentTemplate="{DataTemplate views:MainPage}"
         Route="MainPage" />
 

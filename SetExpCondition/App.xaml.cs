@@ -19,7 +19,7 @@ public partial class App : Application
         MainPage = new AppShell();
 
 #if WINDOWS
-        // Windows の場合のみ、ウィンドウサイズを変更する処理を遅延実行
+        // Windows の場合のみ、ウィンドウサイズを画面解像度に合わせて柔軟に設定する
         Microsoft.Maui.Controls.Application.Current.Dispatcher.Dispatch(async () =>
         {
             await Task.Delay(200); // ウィンドウ生成が完了するまで少し待つ
@@ -30,17 +30,36 @@ public partial class App : Application
             var hwnd = WindowNative.GetWindowHandle(window);
             var winId = Win32Interop.GetWindowIdFromWindow(hwnd);
             var appWindow = AppWindow.GetFromWindowId(winId);
+            if (appWindow is null) return;
 
-            // 初期サイズを指定（例：幅 1000px, 高さ 600px）
-            appWindow.Resize(new SizeInt32(1000, 600));
+            // 表示領域（作業領域）を取得
+            var displayArea = DisplayArea.GetFromWindowId(winId, DisplayAreaFallback.Primary);
+            var work = displayArea.WorkArea; // PointInt32/SizeInt32
 
-            // ウィンドウを中央に表示する
-            //var displayArea = DisplayArea.GetFromWindowId(winId, DisplayAreaFallback.Primary);
-            //var centerPosition = new PointInt32(
-            //    (displayArea.WorkArea.Width - 1200) / 2,
-            //    (displayArea.WorkArea.Height - 800) / 2
-            //);
-            //appWindow.Move(centerPosition);
+            // 画面に対する割合でサイズ決定（例: 80% 幅、70% 高さ）、かつ最小・最大を設定
+            const double widthRatio = 0.4;
+            const double heightRatio = 0.67;
+            const int minWidth = 1000;
+            const int minHeight = 600;
+            const int maxWidth = 1600; // 必要なら制限
+            const int maxHeight = 1000;
+
+            var targetWidth = (int)(work.Width * widthRatio);
+            var targetHeight = (int)(work.Height * heightRatio);
+
+            if (targetWidth < minWidth) targetWidth = minWidth;
+            if (targetHeight < minHeight) targetHeight = minHeight;
+            if (targetWidth > work.Width) targetWidth = work.Width;
+            if (targetHeight > work.Height) targetHeight = work.Height;
+            if (targetWidth > maxWidth) targetWidth = maxWidth;
+            if (targetHeight > maxHeight) targetHeight = maxHeight;
+
+            appWindow.Resize(new SizeInt32(targetWidth, targetHeight));
+
+            // ウィンドウを作業領域の中央に配置
+            var centerX = work.X + (work.Width - targetWidth) / 2;
+            var centerY = work.Y + (work.Height - targetHeight) / 2;
+            appWindow.Move(new PointInt32(centerX, centerY));
         });
 #endif
     }

@@ -11,25 +11,17 @@
 
     <!-- Grid で上部（Auto）と下部（*）に分け、最下部に CSV ボタン用の Auto 行を追加 -->
     <Grid RowDefinitions="Auto,*,Auto">
+        <!--
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        -->
         <!-- 上部: スクロール可能な入力領域 -->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="30,10" Spacing="25">
-                <!--
-                <Border
-                    Stroke="White"
-                    StrokeThickness="2"
-                    Padding="2"
-                    Margin="0"
-                    HorizontalOptions="Center">
-                    <Label
-                        Text="保存先CSVのパス指定"
-                        Style="{StaticResource SubHeadline}"
-                        HorizontalOptions="Center"
-                        TextColor="White" />
-                </Border>
-                -->
-                
-
+                <!-- 省略せず既存の内容を保持 -->
                 <!-- Entry と「保存先確定」「未選択」ボタンを並べる -->
                 <Grid ColumnDefinitions="7*,2*,1*" ColumnSpacing="10">
                     <Entry Text="{Binding FolderPath}" FontSize="18" Grid.Column="0" />
@@ -43,24 +35,30 @@
                             Grid.Column="2" />
                 </Grid>
 
-                <!-- 選択された CSV ファイル名（拡張子付き）を表示 -->
-                <HorizontalStackLayout HorizontalOptions="Center"
-                                       VerticalOptions="Center"
-                                       Spacing="20">
-                    <Label Text="{Binding DisplayText}" 
-                       FontSize="16"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center" />
-                    <Label Text="{Binding SelectedCsvFileName}"
-                       FontSize="16"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center" />
-                </HorizontalStackLayout>
+                <!-- 選択された CSV ファイル名（拡張子付き）を表示（白線で囲む） -->
+                <Border Stroke="White"
+                        StrokeThickness="1"
+                        Padding="8"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="FillAndExpand">
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           Spacing="15">
+                        <Label Text="{Binding DisplayText}" 
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding SelectedCsvFileName}"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                </Border>
                     
                 
                 <!-- 空白用 -->
                 <Label Text=""
-                    HeightRequest="10"
+                    HeightRequest="5"
                     HorizontalOptions="Center"/>
               
                 
@@ -114,16 +112,38 @@
             </FlexLayout>
         </ScrollView>
 
-        <!-- 最下部: CSV保存ボタン -->
+        <!-- 最下部: 試行回数コントロールと CSV保存ボタン -->
         <Grid Grid.Row="2" Padding="10">
-            <Button Text="Save CSV"
-                    FontSize="24"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    HeightRequest="80"
-                    WidthRequest="400"
-                    Margin="15"
-                    Command="{Binding SaveCsvCommand}" />
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <Label Text="Trial Count:"
+                           FontSize="24"
+                           VerticalOptions="Center" />
+                    <Button Text="－"
+                            WidthRequest="40" HeightRequest="40"
+                            Command="{Binding DecreaseTrialCountCommand}" />
+                    <Label Text="{Binding TrialCount}"
+                           FontSize="24"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+                    <Button Text="＋"
+                            WidthRequest="40" HeightRequest="40"
+                            Command="{Binding IncreaseTrialCountCommand}" />
+                    <!-- 追加: 右側にリセットボタン（横に配置） -->
+                    <Button Text="Reset"
+                            WidthRequest="100" HeightRequest="40"
+                            Command="{Binding ResetTrialCountCommand}" />
+                </HorizontalStackLayout>
+
+                <Button Text="Save CSV"
+                        FontSize="24"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HeightRequest="80"
+                        WidthRequest="400"
+                        Margin="15"
+                        Command="{Binding SaveCsvCommand}" />
+            </VerticalStackLayout>
         </Grid>
     </Grid>
 </ContentPage>

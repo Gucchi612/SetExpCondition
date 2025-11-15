@@ -47,9 +47,9 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     string? selectedCsvFileName;
 
-    // CSV 保存完了を通知するイベント（View が購読してモーダル表示する）
-    public event EventHandler<string?>? CsvSaved;
-
+    // 試行回数（1以上）
+    [ObservableProperty]
+    int trialCount = 1;
 
     public MainViewModel()
     {
@@ -94,7 +94,30 @@ public partial class MainViewModel : ObservableObject
         DisplayText = $"保存先CSV: {FolderPath}";
     }
 
-    // CSV保存コマンド：一行目に要因名、二行目に水準名を書き込む
+    // 試行回数を増やす（＋）
+    [RelayCommand]
+    void IncreaseTrialCount()
+    {
+        TrialCount++;
+    }
+
+    // 試行回数を減らす（－、1未満にはしない）
+    [RelayCommand]
+    void DecreaseTrialCount()
+    {
+        if (TrialCount > 1)
+            TrialCount--;
+    }
+
+    // 試行回数をリセット（1 に戻す）
+    [RelayCommand]
+    void ResetTrialCount()
+    {
+        TrialCount = 1;
+    }
+
+    // CSV保存コマンド：1行目にヘッダー "Trials,Physical Locomotion Method, Virtual self-Movement Speed"
+    // 2行目に試行回数と選択水準を書き込む
     [RelayCommand]
     public async Task SaveCsv()
     {
@@ -132,10 +155,9 @@ public partial class MainViewModel : ObservableObject
             if (!string.IsNullOrWhiteSpace(dir) && !Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            // ヘッダー（要因名）と2行目（水準名）を作成
-            // 要因名は UI のラベルと合わせて固定文字列にしています
-            var factorNames = new[] { "Condition1_PL", "Condition2_VS" };
-            var levelNames = new[] { SelectedOption1 ?? string.Empty, SelectedOption2 ?? string.Empty };
+            // ヘッダー（1行目）と2行目（試行回数と水準）を作成
+            var headerColumns = new[] { "Trials", "PhysicalLocomotionMethod", "Virtualself-MovementSpeed" };
+            var valueColumns = new[] { TrialCount.ToString(), SelectedOption1 ?? string.Empty, SelectedOption2 ?? string.Empty };
 
             string EscapeCsv(string s)
             {
@@ -145,19 +167,22 @@ public partial class MainViewModel : ObservableObject
                 return s;
             }
 
-            var headerLine = string.Join(",", factorNames.Select(EscapeCsv));
-            var levelLine = string.Join(",", levelNames.Select(EscapeCsv));
+            var headerLine = string.Join(",", headerColumns.Select(EscapeCsv));
+            var valueLine = string.Join(",", valueColumns.Select(EscapeCsv));
 
             var sb = new StringBuilder();
             sb.AppendLine(headerLine);
-            sb.AppendLine(levelLine);
+            sb.AppendLine(valueLine);
 
             await File.WriteAllTextAsync(outPath, sb.ToString(), Encoding.UTF8);
 
             // 成功表示とファイル名保持
             SelectedCsvFileName = Path.GetFileName(outPath);
 
-            // View に保存完了を通知（モーダル表示用）
+            // DisplayText の二行目以降に CSV 出力内容を表示する
+            DisplayText = $"CSV を保存しました: {outPath}\n[{headerLine}] = [{valueLine}]";
+
+            // 必要なら View に通知する処理（既存のイベント等）を呼ぶ
             CsvSaved?.Invoke(this, outPath);
         }
         catch (Exception ex)
@@ -165,6 +190,9 @@ public partial class MainViewModel : ObservableObject
             DisplayText = $"CSV保存に失敗しました: {ex.Message}";
         }
     }
+
+    // CSV 保存完了を通知するためのイベント（既存コードと互換）
+    public event EventHandler<string?>? CsvSaved;
 
     void UpdateSelectionFromPickers()
     {
