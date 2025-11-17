@@ -13,7 +13,7 @@ namespace SetExpCondition.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
     // Picker 用の要因水準
-    public ObservableCollection<string> Options1 { get; } = new() { "Standing", "Walking-In-Place" };
+    public ObservableCollection<string> Options1 { get; } = new() { "Standing", "WalkingInPlace" };
     public ObservableCollection<string> Options2 { get; } = new() { "Slow", "Medium", "Fast" };
 
     // Pickers の選択（自動でプロパティ変更通知を出す）
